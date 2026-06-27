@@ -7,6 +7,7 @@
   "item.coinsmod.card_classic":  "Классическая Карта",
   "item.coinsmod.card_gold": "Золотая Карта",
   "item.coinsmod.wallet": "Кошелек",
+  "block.coinsmod.coinage_block": "Чеканка Монет",
 
   "text.coinsmod.wallet.coins": "Монет: %s",
   "text.coinsmod.wallet.cards": "Карт: %s",

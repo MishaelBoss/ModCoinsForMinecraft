@@ -20,6 +20,7 @@ public class ModCreativeModeTabs {
             .displayItems((parameters, output) -> {
                 ModItems.ITEMS.getEntries().forEach(entry -> output.accept(entry.get()));
                 output.accept(ModItems.ATM_ITEM);
+                output.accept(ModItems.COINAGE_BLOCK_ITEM);
             }).build());
 
     public static void register(IEventBus eventBus) {

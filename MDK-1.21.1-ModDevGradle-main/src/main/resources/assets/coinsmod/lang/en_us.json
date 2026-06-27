@@ -7,6 +7,7 @@
   "item.coinsmod.card_classic":  "Classic Card",
   "item.coinsmod.card_gold": "Gold Card",
   "item.coinsmod.wallet": "Wallet",
+  "block.coinsmod.coinage_block": "Сoinage",
 
   "text.coinsmod.wallet.coins": "Coins: %s",
   "text.coinsmod.wallet.cards": "Cards: %s",

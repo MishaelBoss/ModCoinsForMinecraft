@@ -36,6 +36,10 @@ public class ModItems {
     public static final DeferredItem<Item> WALLET = ITEMS.register("wallet",
             () -> new WalletItem(new Item.Properties().stacksTo(1)));
 
+    //
+    public static final DeferredItem<BlockItem> COINAGE_BLOCK_ITEM =
+            ITEMS.registerSimpleBlockItem("coinage_block", ModBlocks.COINAGE_BLOCk);
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
