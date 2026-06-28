@@ -167,7 +167,12 @@
 	"display": {
 		"firstperson_righthand": {
 			"rotation": [-38, 44, 19],
-			"translation": [-2.75, 1.25, -2.25]
+			"translation": [-2.75, 1.25, -2.25],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"firstperson_lefthand": {
+			"translation": [-1.5, 0, -1.75],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"gui": {
 			"scale": [0.91406, 0.83984, 1]

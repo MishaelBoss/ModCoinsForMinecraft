@@ -36,7 +36,7 @@ public class CoinsMod {
 
         ModMenus.register(modEventBus);
         ModDataComponents.register(modEventBus);
-        modEventBus.addListener(ClientModEvents::registerScreens);
+        modEventBus.register(ClientModEvents.class);
         ModBlockEntities.register(modEventBus);
 
         ModBlocks.register(modEventBus);

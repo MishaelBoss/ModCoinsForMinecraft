@@ -1,9 +1,13 @@
 package com.michaelboss.coinsmod.block.entity;
 
+import com.michaelboss.coinsmod.block.CoinageBlock;
 import com.michaelboss.coinsmod.init.ModBlockEntities;
 import com.michaelboss.coinsmod.item.ModItems;
 import com.michaelboss.coinsmod.menu.CoinageMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -22,50 +26,81 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.inventory.SimpleContainerData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager.ControllerRegistrar;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Container {
+public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Container, GeoAnimatable {
     private final SimpleContainer items = new SimpleContainer(2);
     private final ContainerData data = new SimpleContainerData(2);
 
     private int progress = 0;
     private int maxProgress = 40;
 
+    private boolean HAMMERING = false;
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final RawAnimation HAMMER_ANIM = RawAnimation.begin().thenLoop("hammer");
+
     public CoinageBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.COINAGE_BLOCK_ENTITY.get(), pos, state);
     }
 
+    @Override
+    public void setChanged() {
+        if (this.level != null) {
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        }
+        super.setChanged();
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, CoinageBlockEntity be) {
-        if (level.isClientSide) return;
+        if (!level.isClientSide) {
+            ItemStack input = be.getItem(0);
+            ItemStack output = be.getItem(1);
+            boolean isProcessing = be.canProcess(input) && !input.isEmpty();
 
-        ItemStack input = be.getItem(0);
-        ItemStack output = be.getItem(1);
-
-        if (be.canProcess(input) && !input.isEmpty()) {
-            be.maxProgress = be.getProcessingTime(input);
-            be.progress++;
-            be.data.set(0, be.progress);
-            be.data.set(1, be.maxProgress);
-
-            if (be.progress >= be.maxProgress) {
-                input.shrink(1);
-
-                ItemStack result = be.createResult(input);
-
-                if(!result.isEmpty()){
-                    if (output.isEmpty()) {
-                        be.setItem(1, result);
-                    } else if (ItemStack.isSameItemSameComponents(output, result) && output.getCount() + result.getCount() <= output.getMaxStackSize()){
-                        output.grow(result.getCount());
-                    } else {
-                        Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), result);
-                    }
-                }
-                be.progress = 0;
-                be.data.set(0, 0);
+            if (state.getValue(CoinageBlock.HAMMERING) != isProcessing) {
+                level.setBlock(pos, state.setValue(CoinageBlock.HAMMERING, isProcessing), 3);
+                be.setChanged();
             }
-        } else {
-            be.progress = 0;
-            be.data.set(0, 0);
+
+            if (isProcessing) {
+                be.maxProgress = be.getProcessingTime(input);
+                be.progress++;
+
+                be.data.set(0, be.progress);
+                be.data.set(1, be.maxProgress);
+
+                if (be.progress >= be.maxProgress) {
+                    ItemStack result = be.createResult(input);
+                    if(!result.isEmpty()){
+                        if (output.isEmpty()) {
+                            be.setItem(1, result);
+                        } else if (ItemStack.isSameItemSameComponents(output, result) && output.getCount() + result.getCount() <= output.getMaxStackSize()){
+                            output.grow(result.getCount());
+                        } else {
+                            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), result);
+                        }
+                    }
+                    input.shrink(1);
+                    be.setItem(0, input);
+
+                    be.progress = 0;
+                    be.data.set(0, 0);
+                    be.setChanged();
+                }
+            } else {
+                if (be.progress != 0) {
+                    be.progress = 0;
+                    be.data.set(0, 0);
+                    be.setChanged();
+                }
+            }
         }
     }
 
@@ -92,8 +127,45 @@ public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.saveAdditional(tag, registries);
+        ListTag itemsTag = new ListTag();
+
+        for (int i = 0; i < this.items.getContainerSize(); i++) {
+            ItemStack stack = this.items.getItem(i);
+            if (!stack.isEmpty()) {
+                CompoundTag slotTag = new CompoundTag();
+                slotTag.putInt("Slot", i);
+                itemsTag.add(stack.save(registries, slotTag));
+            }
+        }
+
+        tag.put("Items", itemsTag);
+        tag.putInt("Progress", this.progress);
+        tag.putInt("MaxProgress", this.maxProgress);
+    }
+
+    @Override
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.loadAdditional(tag, registries);
+        ListTag itemsTag = tag.getList("Items", CompoundTag.TAG_COMPOUND);
+
+        for (int i = 0; i < itemsTag.size(); i++) {
+            CompoundTag slotTag = itemsTag.getCompound(i);
+            int slot = slotTag.getInt("Slot");
+            if (slot >= 0 && slot < this.items.getContainerSize()) {
+                ItemStack stack = ItemStack.parse(registries, slotTag).orElse(ItemStack.EMPTY);
+                this.items.setItem(slot, stack);
+            }
+        }
+
+        this.progress = tag.getInt("Progress");
+        this.maxProgress = tag.getInt("MaxProgress");
+    }
+
+    @Override
     public @NotNull Component getDisplayName() {
-        return Component.literal("Coinage");
+        return Component.translatable("text.coinsmod.menu.coinage");
     }
 
     @Override
@@ -144,5 +216,29 @@ public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Con
     @Override
     public void clearContent() {
         this.items.clearContent();
+    }
+
+    @Override
+    public void registerControllers(ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "main_controller", 4, state -> {
+            Level level = this.getLevel();
+            if (level != null) {
+                BlockState blockState = level.getBlockState(this.getBlockPos());
+                if (blockState.hasProperty(CoinageBlock.HAMMERING) && blockState.getValue(CoinageBlock.HAMMERING)) {
+                    return state.setAndContinue(HAMMER_ANIM);
+                }
+            }
+            return PlayState.STOP;
+        }));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
+
+    @Override
+    public double getTick(Object object) {
+        return this.level != null ? this.level.getGameTime() : 0.0;
     }
 }

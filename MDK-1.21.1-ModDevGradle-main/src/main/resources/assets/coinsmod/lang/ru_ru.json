@@ -11,6 +11,7 @@
 
   "text.coinsmod.wallet.coins": "Монет: %s",
   "text.coinsmod.wallet.cards": "Карт: %s",
+  "text.coinsmod.menu.coinage": "Чеканка Монет",
 
   "examplemod.configuration.title": "Example Mod Configs",
   "examplemod.configuration.section.examplemod.common.toml": "Example Mod Configs",

@@ -1,5 +1,6 @@
 package com.michaelboss.coinsmod.client.gui;
 
+import com.michaelboss.coinsmod.CoinsMod;
 import com.michaelboss.coinsmod.menu.WalletMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class WalletScreen extends AbstractContainerScreen<WalletMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath("coinsmod", "textures/gui/wallet.png");
+            ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID, "textures/gui/wallet.png");
 
     public WalletScreen(WalletMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

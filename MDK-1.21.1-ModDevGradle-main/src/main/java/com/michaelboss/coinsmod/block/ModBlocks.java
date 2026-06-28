@@ -13,15 +13,15 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> ATM_TOP_BLOCK =
             BLOCKS.register("atm_top_block",
-                    () -> new ATMTopBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+                    () -> new ATMTopBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> ATM_BOTTOM_BLOCK =
             BLOCKS.register("atm_bottom_block",
-                    () -> new ATMBottomBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+                    () -> new ATMBottomBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> COINAGE_BLOCK =
             BLOCKS.register("coinage_block",
-                    () -> new CoinageBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).requiresCorrectToolForDrops()));
+                    () -> new CoinageBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).noOcclusion().requiresCorrectToolForDrops()));
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
