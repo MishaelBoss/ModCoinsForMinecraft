@@ -46,6 +46,14 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
     }
 
     @Override
+    public void setChanged() {
+        if (this.level != null) {
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        }
+        super.setChanged();
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
     }

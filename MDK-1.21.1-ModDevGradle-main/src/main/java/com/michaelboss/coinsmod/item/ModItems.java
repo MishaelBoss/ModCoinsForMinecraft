@@ -44,7 +44,7 @@ public class ModItems {
     public static final DeferredItem<BlockItem> COINAGE_BLOCK_ITEM =
             ITEMS.registerSimpleBlockItem("coinage_block", ModBlocks.COINAGE_BLOCK);
 
-    // Bank сard printing machine - станок для создания банковских карт
+    // Bank card printing machine - станок для создания банковских карт
     public static final DeferredItem<BlockItem> BANK_CARD_PRINTING_MACHINE_BLOCK_ITEM =
             ITEMS.registerSimpleBlockItem("bank_card_printing_machine_block", ModBlocks.BANK_CARD_PRINTING_MACHINE_BLOCK);
 

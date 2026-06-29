@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"all": "coinsmod:block/cognitive_crystal_block"
+		"all": "coinsmod:custom_models/bank_card_printing_machine"
 	}
 }
