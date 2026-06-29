@@ -27,7 +27,8 @@
   "============ DESCRIPTIONS ===================": "=====================",
 
   "tooltip.coinsmod.hold_shift": "§8§oУдерживайте SHIFT для подробностей",
-  "tooltip.coinsmod.card.details": "Карта: хранит ваши монеты.",
+  "tooltip.coinsmod.card.id": "ID Владельца",
+  "tooltip.coinsmod.card.no_biometrics": "Биометрические данные отсутствуют",
   "tooltip.coinsmod.coin.details":  "Будет добавлено в будущих версиях",
   "text.coinsmod.wallet.coins": "Монет: %s",
   "text.coinsmod.wallet.cards": "Карт: %s",

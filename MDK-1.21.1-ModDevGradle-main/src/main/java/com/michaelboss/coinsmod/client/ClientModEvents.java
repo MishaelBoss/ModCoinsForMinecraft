@@ -22,6 +22,6 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.COINAGE_BLOCK_ENTITY.get(), CoinageBlockRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.BANK_CARD_PPINTING_MACHINE_BLOCK_ENTITY.get(), BankCardPrintingMachineBlockRender::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY.get(), BankCardPrintingMachineBlockRender::new);
     }
 }

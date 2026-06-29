@@ -22,6 +22,6 @@ public class BankCardPrintingMachineBlockGeoModel extends GeoModel<BankCardPrint
     @Override
     public ResourceLocation getAnimationResource(BankCardPrintingMachineBlockEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID,
-                "animations/coinage_block.animation.json");
+                "animations/bank_card_printing_machine_block.animation.json");
     }
 }

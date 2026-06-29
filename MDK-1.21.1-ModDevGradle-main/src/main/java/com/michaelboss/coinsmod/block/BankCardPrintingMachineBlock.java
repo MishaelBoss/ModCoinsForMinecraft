@@ -1,6 +1,7 @@
 package com.michaelboss.coinsmod.block;
 
 import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
+import com.michaelboss.coinsmod.init.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,10 +14,13 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
@@ -26,10 +30,13 @@ public class BankCardPrintingMachineBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final MapCodec<BankCardPrintingMachineBlock> CODEC = simpleCodec(BankCardPrintingMachineBlock::new);
 
+    public static final BooleanProperty PRINTING = BooleanProperty.create("printing");
+
     protected BankCardPrintingMachineBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(FACING, Direction.NORTH));
+                .setValue(FACING, Direction.NORTH)
+                .setValue(PRINTING, false));
     }
 
     @Override
@@ -40,12 +47,14 @@ public class BankCardPrintingMachineBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+        builder.add(PRINTING);
     }
 
     @Override
     public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite());
+                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(PRINTING, false);
     }
 
     @Override
@@ -65,10 +74,18 @@ public class BankCardPrintingMachineBlock extends BaseEntityBlock {
         } else {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof BankCardPrintingMachineBlockEntity bankCardPrintingMachineBlockEntity) {
+                bankCardPrintingMachineBlockEntity.setPrintingPlayer(player);
+
                 player.openMenu(bankCardPrintingMachineBlockEntity, pos);
             }
             return InteractionResult.CONSUME;
         }
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
+        return type == ModBlockEntities.BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY.get() ?
+                (lvl, pos, st, be) -> BankCardPrintingMachineBlockEntity.tick(lvl, pos, st, (BankCardPrintingMachineBlockEntity) be) : null;
     }
 
     @Override

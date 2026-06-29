@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class BankCardPrintingMachineScreen extends AbstractContainerScreen<BankCardPrintingMachineMenu> {
     private static final ResourceLocation TEXTURE =
@@ -28,6 +29,19 @@ public class BankCardPrintingMachineScreen extends AbstractContainerScreen<BankC
         int maxProgress = menu.getData().get(1);
         int arrowWidth = maxProgress == 0 ? 0 : 24 * progress / maxProgress;
 
-        guiGraphics.blit(TEXTURE, leftPos + 79, topPos + 21, 176, 0, arrowWidth, 17);
+        guiGraphics.blit(TEXTURE, leftPos + 79, topPos + 34, 176, 0, arrowWidth, 17);
+
+        assert this.minecraft != null;
+
+        String ownerName = this.minecraft.player != null ? this.minecraft.player.getScoreboardName() : "Unknown";
+        Component text = Component.literal("Пользователь: " + ownerName);
+        guiGraphics.drawString(this.font, text, leftPos + 8, topPos + 18, 0x555555, false);
+    }
+
+    @Override
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 }

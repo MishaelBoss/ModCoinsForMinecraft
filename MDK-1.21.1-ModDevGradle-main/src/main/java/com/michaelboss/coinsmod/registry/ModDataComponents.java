@@ -23,6 +23,11 @@ public class ModDataComponents {
                     .persistent(Codec.STRING)
                     .build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> CARD_UUID =
+            REGISTRY.register("card_uuid", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .build());
+
     public static void register(IEventBus eventBus) {
         REGISTRY.register(eventBus);
     }

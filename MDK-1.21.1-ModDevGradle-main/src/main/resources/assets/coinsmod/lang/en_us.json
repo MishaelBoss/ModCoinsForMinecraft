@@ -26,8 +26,9 @@
 
   "============ DESCRIPTIONS ===================": "=====================",
   "tooltip.coinsmod.hold_shift": "§8§oHold Shift to see map details",
+  "tooltip.coinsmod.card.id": "ID Owner",
+  "tooltip.coinsmod.card.no_biometrics": "No biometric data available",
   "tooltip.coinsmod.coin.details":  "Will be added in future versions",
-  "tooltip.coinsmod.card.details": "Card: stores your coins.",
   "text.coinsmod.wallet.coins": "Coins: %s",
   "text.coinsmod.wallet.cards": "Cards: %s",
 

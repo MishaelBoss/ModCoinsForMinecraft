@@ -1,14 +1,12 @@
 package com.michaelboss.coinsmod.menu;
 
+import com.michaelboss.coinsmod.block.ModBlocks;
 import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
 import com.michaelboss.coinsmod.item.ModItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -27,49 +25,48 @@ public class BankCardPrintingMachineMenu extends AbstractContainerMenu {
         return stack.is(ModItems.CHIP.get());
     }
 
-    public BankCardPrintingMachineMenu(int id, Inventory inventory, BankCardPrintingMachineBlockEntity blockEntity) {
-        this(id, inventory, blockEntity, blockEntity.getContainerData());
-    }
-
     @SuppressWarnings("resource")
     public BankCardPrintingMachineMenu(int id, Inventory inventory, FriendlyByteBuf buf) {
-        this(id, inventory, (BankCardPrintingMachineBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos()));
+        super(ModMenus.BANK_CARD_PRINTING_MACHINE_MENU.get(), id);
+
+        this.blockEntity = (BankCardPrintingMachineBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
+
+        this.data = new SimpleContainerData(2);
+        this.addDataSlots(this.data);
+
+        this.access = ContainerLevelAccess.NULL;
+
+        setupSlots(inventory);
     }
 
-    protected BankCardPrintingMachineMenu(int id, Inventory inventory, BankCardPrintingMachineBlockEntity blockEntity, ContainerData data) {
+    public BankCardPrintingMachineMenu(int id, Inventory inventory, BankCardPrintingMachineBlockEntity blockEntity, ContainerData data, ContainerLevelAccess containerLevelAccess) {
         super(ModMenus.BANK_CARD_PRINTING_MACHINE_MENU.get(), id);
         this.blockEntity = blockEntity;
         this.data = data;
-        assert blockEntity.getLevel() != null;
-        this.access = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+        this.access = containerLevelAccess;
 
         this.addDataSlots(data);
 
-        this.addSlot(new Slot(blockEntity, 0, 31, 34) {
-            @Override
-            public boolean mayPlace(@NotNull ItemStack stack) {
-                return isAcceptedSlot0(stack);
-            }
+        setupSlots(inventory);
+    }
+
+    private void setupSlots(Inventory inventory) {
+        this.addSlot(new Slot(this.blockEntity, 0, 31, 34) {
+            @Override public boolean mayPlace(@NotNull ItemStack stack) { return isAcceptedSlot0(stack); }
         });
 
-        this.addSlot(new Slot(blockEntity, 1, 56, 34) {
-            @Override
-            public boolean mayPlace(@NotNull ItemStack stack) {
-                return isAcceptedSlot1(stack);
-            }
+        this.addSlot(new Slot(this.blockEntity, 1, 56, 34) {
+            @Override public boolean mayPlace(@NotNull ItemStack stack) { return isAcceptedSlot1(stack); }
         });
 
-        this.addSlot(new Slot(blockEntity, 2, 116, 34) {
-            @Override
-            public boolean mayPlace(@NotNull ItemStack stack) {
-                return false;
-            }
+        this.addSlot(new Slot(this.blockEntity, 2, 116, 34) {
+            @Override public boolean mayPlace(@NotNull ItemStack stack) { return false; }
         });
-
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
     }
+
 
     private void addPlayerInventory(Inventory inventory) {
         for (int row = 0; row < 3; row++) {
@@ -123,7 +120,7 @@ public class BankCardPrintingMachineMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return stillValid(this.access, player, this.blockEntity.getBlockState().getBlock());
+        return stillValid(this.access, player, ModBlocks.BANK_CARD_PRINTING_MACHINE_BLOCK.get());
     }
 
     public ContainerData getData() {

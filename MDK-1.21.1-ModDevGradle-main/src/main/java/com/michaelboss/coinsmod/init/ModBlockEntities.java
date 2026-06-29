@@ -18,7 +18,7 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("coinage_block",
                     () -> BlockEntityType.Builder.of(CoinageBlockEntity::new, ModBlocks.COINAGE_BLOCK.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BankCardPrintingMachineBlockEntity>> BANK_CARD_PPINTING_MACHINE_BLOCK_ENTITY =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BankCardPrintingMachineBlockEntity>> BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("bank_card_printing_machine_block",
                     () -> BlockEntityType.Builder.of(BankCardPrintingMachineBlockEntity::new, ModBlocks.BANK_CARD_PRINTING_MACHINE_BLOCK.get()).build(null));
 

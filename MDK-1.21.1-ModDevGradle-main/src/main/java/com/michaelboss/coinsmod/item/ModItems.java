@@ -30,10 +30,10 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
     // Cards - Карты
-    public static final DeferredItem<Item> CLASSIC_CARD = ITEMS.register("card_classic",
+    public static final DeferredItem<Item> CLASSIC_CARD = ITEMS.register("classic_card",
             () -> new ClassicCardItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> GOLD_CARD = ITEMS.register("card_gold",
+    public static final DeferredItem<Item> GOLD_CARD = ITEMS.register("gold_card",
             () -> new GoldCardItem(new Item.Properties().stacksTo(1)));
 
     // Wallet - Кошелек

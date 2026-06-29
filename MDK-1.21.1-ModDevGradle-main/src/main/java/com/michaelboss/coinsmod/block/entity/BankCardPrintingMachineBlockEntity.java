@@ -1,7 +1,10 @@
 package com.michaelboss.coinsmod.block.entity;
 
+import com.michaelboss.coinsmod.block.BankCardPrintingMachineBlock;
 import com.michaelboss.coinsmod.init.ModBlockEntities;
+import com.michaelboss.coinsmod.item.ModItems;
 import com.michaelboss.coinsmod.menu.BankCardPrintingMachineMenu;
+import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +19,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +28,8 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -42,7 +49,13 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
     private static final RawAnimation PRINT_ANIM = RawAnimation.begin().thenLoop("typing_on_a_keyboard");
 
     public BankCardPrintingMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.BANK_CARD_PPINTING_MACHINE_BLOCK_ENTITY.get(), pos, state);
+        super(ModBlockEntities.BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY.get(), pos, state);
+    }
+
+    public void setPrintingPlayer(Player player) {
+        this.printingPlayerUUID = player.getUUID();
+        this.printingPlayerName = player.getScoreboardName();
+        this.setChanged();
     }
 
     @Override
@@ -53,9 +66,82 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
         super.setChanged();
     }
 
+    public static void tick(Level level, BlockPos pos, BlockState state, BankCardPrintingMachineBlockEntity be) {
+        if (!level.isClientSide) {
+
+            ItemStack ingot = be.getItem(0);
+            ItemStack chip = be.getItem(1);
+            ItemStack output = be.getItem(2);
+
+            boolean isProcessing = be.canProcess(ingot, chip) && output.isEmpty();
+
+            if (state.getValue(BankCardPrintingMachineBlock.PRINTING) != isProcessing) {
+                level.setBlock(pos, state.setValue(BankCardPrintingMachineBlock.PRINTING, isProcessing), 3);
+                be.setChanged();
+            }
+
+            if (isProcessing) {
+                be.progress++;
+
+                be.data.set(0, be.progress);
+                be.data.set(1, be.maxProgress);
+
+                if (be.progress >= be.maxProgress) {
+                    ItemStack result = be.createResult(ingot);
+
+                    if(!result.isEmpty()){
+                        result.set(ModDataComponents.CARD_OWNER.get(), be.printingPlayerName);
+
+                        if (be.printingPlayerUUID != null) {
+                            result.set(ModDataComponents.CARD_UUID.get(), be.printingPlayerUUID.toString());
+                        }
+
+                        be.setItem(2, result);
+                    }
+
+                    ingot.shrink(1);
+                    chip.shrink(1);
+                    be.setItem(0, ingot);
+                    be.setItem(1, chip);
+
+                    be.progress = 0;
+                    be.data.set(0, 0);
+                    be.setChanged();
+                }
+            } else {
+                if (be.progress != 0) {
+                    be.progress = 0;
+                    be.data.set(0, 0);
+                    be.setChanged();
+                }
+            }
+        }
+    }
+
+    private ItemStack createResult(ItemStack ingot) {
+        if (ingot.is(Items.IRON_INGOT)) return new ItemStack(ModItems.CLASSIC_CARD.get());
+        if (ingot.is(Items.GOLD_INGOT)) return new ItemStack(ModItems.GOLD_CARD.get());
+        return ItemStack.EMPTY;
+    }
+
+    private boolean canProcess(ItemStack ingot, ItemStack chip) {
+        boolean hasIngot = ingot.is(Items.IRON_INGOT) || ingot.is(Items.GOLD_INGOT);
+        boolean hasChip = chip.is(ModItems.CHIP.get());
+        return hasIngot && hasChip;
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
+        controllers.add(new AnimationController<>(this, "printer_controller", 4, state -> {
+            Level lvl = this.getLevel();
+            if (lvl != null) {
+                BlockState blockState = lvl.getBlockState(this.getBlockPos());
+                if (blockState.hasProperty(BankCardPrintingMachineBlock.PRINTING) && blockState.getValue(BankCardPrintingMachineBlock.PRINTING)) {
+                    return state.setAndContinue(PRINT_ANIM);
+                }
+            }
+            return PlayState.STOP;
+        }));
     }
 
     @Override
@@ -65,7 +151,7 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
 
     @Override
     public double getTick(Object object) {
-        return 0;
+        return this.level != null ? this.level.getGameTime() : 0.0;
     }
 
     @Override
@@ -75,7 +161,8 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
-        return new BankCardPrintingMachineMenu(id, inventory, this);
+        assert this.level != null;
+        return new BankCardPrintingMachineMenu(id, inventory, this, data, net.minecraft.world.inventory.ContainerLevelAccess.create(this.level, this.worldPosition));
     }
 
     public ContainerData getContainerData() {

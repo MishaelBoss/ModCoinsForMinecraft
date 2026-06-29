@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "coinsmod:item/card_classic"
+    "layer0": "coinsmod:item/classic_card"
   }
 }
