@@ -1,3 +1,6 @@
 {
-  "parent": "coinsmod:block/bank_card_printing_machine_block"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "coinsmod:item/bank_card_printing_machine"
+  }
 }
