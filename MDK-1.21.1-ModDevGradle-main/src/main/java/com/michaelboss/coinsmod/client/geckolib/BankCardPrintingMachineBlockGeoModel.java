@@ -16,7 +16,7 @@ public class BankCardPrintingMachineBlockGeoModel extends GeoModel<BankCardPrint
     @Override
     public ResourceLocation getTextureResource(BankCardPrintingMachineBlockEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID,
-                "textures/custom_models/bank_card_printing_machine.png");
+                "textures/block/bank_card_printing_machine.png");
     }
 
     @Override
