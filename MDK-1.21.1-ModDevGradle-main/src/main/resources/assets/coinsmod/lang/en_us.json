@@ -22,6 +22,7 @@
   "============ GUI ===================": "=====================",
 
   "title.coinsmod.menu.coinage": "Coinage",
+  "title.coinsmod.menu.coinage.ownerName":  "User: ",
   "title.coinsmod.menu.bank_card_printing_machine": "Printer for creating cards",
 
   "============ DESCRIPTIONS ===================": "=====================",
