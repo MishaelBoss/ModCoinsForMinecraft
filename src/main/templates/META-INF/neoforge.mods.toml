@@ -46,7 +46,10 @@ authors="MichaelBoss"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+ENG:
+\nAdds a simple economy system with coins, bank cards, ATMs, and card printers, letting players store, and spend money
+\nRU:
+\nДобавляет простую экономическую систему с монетами, банковскими картами, банкоматами и принтерами для печати карт, позволяющую игрокам хранить и тратить деньги.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
