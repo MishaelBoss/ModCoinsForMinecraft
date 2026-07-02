@@ -2,6 +2,7 @@ package com.michaelboss.coinsmod.init;
 
 import com.michaelboss.coinsmod.CoinsMod;
 import com.michaelboss.coinsmod.block.ModBlocks;
+import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
 import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
 import com.michaelboss.coinsmod.block.entity.CoinageBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +22,10 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BankCardPrintingMachineBlockEntity>> BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("bank_card_printing_machine_block",
                     () -> BlockEntityType.Builder.of(BankCardPrintingMachineBlockEntity::new, ModBlocks.BANK_CARD_PRINTING_MACHINE_BLOCK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ATMBlockEntity>> ATM_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("atm_bottom_block",
+                    () -> BlockEntityType.Builder.of(ATMBlockEntity::new, ModBlocks.ATM_BOTTOM_BLOCK.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

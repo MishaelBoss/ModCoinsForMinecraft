@@ -1,5 +1,6 @@
 package com.michaelboss.coinsmod.client;
 
+import com.michaelboss.coinsmod.client.gui.ATMScreen;
 import com.michaelboss.coinsmod.client.gui.BankCardPrintingMachineScreen;
 import com.michaelboss.coinsmod.client.gui.CoinageScreen;
 import com.michaelboss.coinsmod.client.gui.WalletScreen;
@@ -17,6 +18,7 @@ public class ClientModEvents {
         event.register(ModMenus.WALLET_MENU.get(), WalletScreen::new);
         event.register(ModMenus.COINAGE_MENU.get(), CoinageScreen::new);
         event.register(ModMenus.BANK_CARD_PRINTING_MACHINE_MENU.get(), BankCardPrintingMachineScreen::new);
+        event.register(ModMenus.ATM_MENU.get(), ATMScreen::new);
     }
 
     @SubscribeEvent

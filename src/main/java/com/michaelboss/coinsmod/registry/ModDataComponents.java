@@ -5,6 +5,7 @@ import com.michaelboss.coinsmod.item.component.WalletContents;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -26,6 +27,12 @@ public class ModDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> CARD_UUID =
             REGISTRY.register("card_uuid", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
+                    .build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CARD_DEPOSIT =
+            REGISTRY.register("card_deposit", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.INT)
                     .build());
 
     public static void register(IEventBus eventBus) {

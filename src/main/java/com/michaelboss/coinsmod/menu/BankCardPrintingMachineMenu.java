@@ -28,9 +28,7 @@ public class BankCardPrintingMachineMenu extends AbstractContainerMenu {
     @SuppressWarnings("resource")
     public BankCardPrintingMachineMenu(int id, Inventory inventory, FriendlyByteBuf buf) {
         super(ModMenus.BANK_CARD_PRINTING_MACHINE_MENU.get(), id);
-
         this.blockEntity = (BankCardPrintingMachineBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
-
         this.data = new SimpleContainerData(2);
         this.addDataSlots(this.data);
 
@@ -66,7 +64,6 @@ public class BankCardPrintingMachineMenu extends AbstractContainerMenu {
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
     }
-
 
     private void addPlayerInventory(Inventory inventory) {
         for (int row = 0; row < 3; row++) {

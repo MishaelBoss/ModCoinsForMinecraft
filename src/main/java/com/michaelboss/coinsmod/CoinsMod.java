@@ -7,6 +7,7 @@ import com.michaelboss.coinsmod.item.ModCreativeModeTabs;
 import com.michaelboss.coinsmod.item.ModItems;
 import com.michaelboss.coinsmod.menu.ModMenus;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
+import net.neoforged.fml.ModList;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -43,9 +44,15 @@ public class CoinsMod {
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
 
-        modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(this::registerPackets);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    public static String getVersion() {
+        ModContainer container = ModList.get().getModContainerById(MOD_ID).orElse(null);
+        if (container == null) return "unknown";
+        return container.getModInfo().getVersion().toString();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -60,12 +67,20 @@ public class CoinsMod {
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(ModItems.COPPER_COIN);
-            event.accept(ModItems.GOLD_COIN);
-            event.accept(ModItems.IRON_COIN);
-        }
+    private void registerPackets(final net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent event) {
+        final net.neoforged.neoforge.network.registration.PayloadRegistrar registrar = event.registrar("1.0.0");
+
+        registrar.playToServer(
+                com.michaelboss.coinsmod.network.DepositC2SPacket.TYPE,
+                com.michaelboss.coinsmod.network.DepositC2SPacket.STREAM_CODEC,
+                com.michaelboss.coinsmod.network.DepositC2SPacket::handle
+        );
+
+        registrar.playToServer(
+                com.michaelboss.coinsmod.network.WithdrawC2SPacket.TYPE,
+                com.michaelboss.coinsmod.network.WithdrawC2SPacket.STREAM_CODEC,
+                com.michaelboss.coinsmod.network.WithdrawC2SPacket::handle
+        );
     }
 
     @SubscribeEvent

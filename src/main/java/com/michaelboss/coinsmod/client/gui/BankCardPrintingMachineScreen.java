@@ -34,7 +34,9 @@ public class BankCardPrintingMachineScreen extends AbstractContainerScreen<BankC
         assert this.minecraft != null;
 
         String ownerName = this.minecraft.player != null ? this.minecraft.player.getScoreboardName() : "Unknown";
-        Component text = Component.translatable("title.coinsmod.menu.coinage.ownerName").append(ownerName);
+        Component text = Component.translatable("title.coinsmod.menu.coinage.ownerName")
+                .append(": ")
+                .append(ownerName);
         guiGraphics.drawString(this.font, text, leftPos + 8, topPos + 18, 0x555555, false);
     }
 

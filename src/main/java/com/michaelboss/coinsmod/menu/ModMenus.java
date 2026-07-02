@@ -25,6 +25,10 @@ public class ModMenus {
             MENUS.register("bank_card_printing_machine_menu",
                     () -> IMenuTypeExtension.create(BankCardPrintingMachineMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<ATMMenu>> ATM_MENU =
+            MENUS.register("atm_menu",
+                    () -> IMenuTypeExtension.create(ATMMenu::new));
+
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
     }

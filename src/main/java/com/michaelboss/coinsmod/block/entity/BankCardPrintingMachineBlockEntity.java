@@ -96,6 +96,8 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
                             result.set(ModDataComponents.CARD_UUID.get(), be.printingPlayerUUID.toString());
                         }
 
+                        result.set(ModDataComponents.CARD_DEPOSIT.get(), 0);
+
                         be.setItem(2, result);
                     }
 
@@ -163,10 +165,6 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
         assert this.level != null;
         return new BankCardPrintingMachineMenu(id, inventory, this, data, net.minecraft.world.inventory.ContainerLevelAccess.create(this.level, this.worldPosition));
-    }
-
-    public ContainerData getContainerData() {
-        return this.data;
     }
 
     @Override

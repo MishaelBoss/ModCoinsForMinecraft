@@ -11,13 +11,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ClassicCardItem extends Item {
-    public ClassicCardItem(Properties properties) {
+public class CardItem extends Item {
+    public CardItem(Properties properties) {
         super(properties);
     }
 
     @Override
-    public @NotNull Component getName(ItemStack stack) {
+    public @NotNull Component getName(@NotNull ItemStack stack) {
         String ownerName = stack.get(ModDataComponents.CARD_OWNER.get());
 
         if (ownerName != null && !ownerName.isEmpty()) {
@@ -33,11 +33,17 @@ public class ClassicCardItem extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         String ownerUUID = stack.get(ModDataComponents.CARD_UUID.get());
 
+
         if (Screen.hasShiftDown()) {
             if (ownerUUID != null && !ownerUUID.isEmpty()) {
                 tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.id")
                         .append(": ")
                         .append(Component.literal(ownerUUID).withStyle(ChatFormatting.GRAY)));
+
+                Integer cardDeposit = stack.get(ModDataComponents.CARD_DEPOSIT.get());
+                float singleValue = cardDeposit / 10.0F;
+
+                tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.deposit", singleValue));
             } else {
                 tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.no_biometrics").withStyle(ChatFormatting.RED));
             }
