@@ -1,6 +1,6 @@
 package com.michaelboss.coinsmod.client.renderer;
 
-import com.michaelboss.coinsmod.block.entity.CoinageBlockEntity;
+import com.michaelboss.coinsmod.blockentity.CoinageBlockEntity;
 import com.michaelboss.coinsmod.client.geckolib.CoinageBlockGeoModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;

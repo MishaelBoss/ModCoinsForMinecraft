@@ -1,9 +1,10 @@
 package com.michaelboss.coinsmod.menu;
 
-import com.michaelboss.coinsmod.item.ModItems;
+import com.michaelboss.coinsmod.registry.ModItems;
+import com.michaelboss.coinsmod.registry.ModMenus;
 import com.michaelboss.coinsmod.item.component.WalletContents;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
-import com.michaelboss.coinsmod.tags.ModTags;
+import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID, "textures/gui/atm.png");
+            (CoinsMod.id("textures/gui/atm.png"));
 
     private boolean isFullyBooted = false;
 

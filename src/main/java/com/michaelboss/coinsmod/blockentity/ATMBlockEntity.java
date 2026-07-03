@@ -1,10 +1,10 @@
-package com.michaelboss.coinsmod.block.entity;
+package com.michaelboss.coinsmod.blockentity;
 
 import com.michaelboss.coinsmod.block.ATMBottomBlock;
-import com.michaelboss.coinsmod.init.ModBlockEntities;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.michaelboss.coinsmod.menu.ATMMenu;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
-import com.michaelboss.coinsmod.tags.ModTags;
+import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

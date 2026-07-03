@@ -1,8 +1,9 @@
 package com.michaelboss.coinsmod.menu;
 
-import com.michaelboss.coinsmod.block.ModBlocks;
-import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
-import com.michaelboss.coinsmod.tags.ModTags;
+import com.michaelboss.coinsmod.registry.ModBlocks;
+import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
+import com.michaelboss.coinsmod.registry.ModMenus;
+import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

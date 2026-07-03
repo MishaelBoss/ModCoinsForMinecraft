@@ -1,6 +1,7 @@
-package com.michaelboss.coinsmod.item;
+package com.michaelboss.coinsmod.item.tab;
 
 import com.michaelboss.coinsmod.CoinsMod;
+import com.michaelboss.coinsmod.registry.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

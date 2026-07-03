@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class WalletScreen extends AbstractContainerScreen<WalletMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID, "textures/gui/wallet.png");
+            (CoinsMod.id("textures/gui/wallet.png"));
 
     public WalletScreen(WalletMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

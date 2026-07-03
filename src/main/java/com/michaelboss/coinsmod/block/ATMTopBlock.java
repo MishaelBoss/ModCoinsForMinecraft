@@ -1,6 +1,7 @@
 package com.michaelboss.coinsmod.block;
 
-import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
+import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
+import com.michaelboss.coinsmod.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;

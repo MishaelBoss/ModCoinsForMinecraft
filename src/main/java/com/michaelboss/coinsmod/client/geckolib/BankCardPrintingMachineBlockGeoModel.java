@@ -1,7 +1,7 @@
 package com.michaelboss.coinsmod.client.geckolib;
 
 import com.michaelboss.coinsmod.CoinsMod;
-import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
+import com.michaelboss.coinsmod.blockentity.BankCardPrintingMachineBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
@@ -9,19 +9,16 @@ public class BankCardPrintingMachineBlockGeoModel extends GeoModel<BankCardPrint
 
     @Override
     public ResourceLocation getModelResource(BankCardPrintingMachineBlockEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID,
-                "geo/bank_card_printing_machine_block.geo.json");
+        return (CoinsMod.id("geo/bank_card_printing_machine_block.geo.json"));
     }
 
     @Override
     public ResourceLocation getTextureResource(BankCardPrintingMachineBlockEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID,
-                "textures/block/bank_card_printing_machine.png");
+        return (CoinsMod.id("textures/block/bank_card_printing_machine.png"));
     }
 
     @Override
     public ResourceLocation getAnimationResource(BankCardPrintingMachineBlockEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID,
-                "animations/bank_card_printing_machine_block.animation.json");
+        return (CoinsMod.id("animations/bank_card_printing_machine_block.animation.json"));
     }
 }

@@ -1,7 +1,7 @@
 package com.michaelboss.coinsmod.block;
 
-import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
-import com.michaelboss.coinsmod.init.ModBlockEntities;
+import com.michaelboss.coinsmod.blockentity.BankCardPrintingMachineBlockEntity;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,7 +32,7 @@ public class BankCardPrintingMachineBlock extends BaseEntityBlock {
 
     public static final BooleanProperty PRINTING = BooleanProperty.create("printing");
 
-    protected BankCardPrintingMachineBlock(BlockBehaviour.Properties properties) {
+    public BankCardPrintingMachineBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)

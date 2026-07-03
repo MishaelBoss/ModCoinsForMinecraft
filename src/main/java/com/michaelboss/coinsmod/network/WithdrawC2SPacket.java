@@ -1,7 +1,7 @@
 package com.michaelboss.coinsmod.network;
 
-import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
-import com.michaelboss.coinsmod.item.ModItems;
+import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
+import com.michaelboss.coinsmod.registry.ModItems;
 import com.michaelboss.coinsmod.menu.ATMMenu;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.network.FriendlyByteBuf;

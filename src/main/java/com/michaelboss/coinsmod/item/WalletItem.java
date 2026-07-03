@@ -3,7 +3,7 @@ package com.michaelboss.coinsmod.item;
 import com.michaelboss.coinsmod.item.component.WalletContents;
 import com.michaelboss.coinsmod.menu.WalletMenu;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
-import com.michaelboss.coinsmod.tags.ModTags;
+import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

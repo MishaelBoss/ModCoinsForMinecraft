@@ -1,6 +1,10 @@
-package com.michaelboss.coinsmod.menu;
+package com.michaelboss.coinsmod.registry;
 
 import com.michaelboss.coinsmod.CoinsMod;
+import com.michaelboss.coinsmod.menu.ATMMenu;
+import com.michaelboss.coinsmod.menu.BankCardPrintingMachineMenu;
+import com.michaelboss.coinsmod.menu.CoinageMenu;
+import com.michaelboss.coinsmod.menu.WalletMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;

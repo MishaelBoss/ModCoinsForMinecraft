@@ -1,12 +1,13 @@
 package com.michaelboss.coinsmod;
 
-import com.michaelboss.coinsmod.block.ModBlocks;
+import com.michaelboss.coinsmod.registry.ModBlocks;
 import com.michaelboss.coinsmod.client.ClientModEvents;
-import com.michaelboss.coinsmod.init.ModBlockEntities;
-import com.michaelboss.coinsmod.item.ModCreativeModeTabs;
-import com.michaelboss.coinsmod.item.ModItems;
-import com.michaelboss.coinsmod.menu.ModMenus;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
+import com.michaelboss.coinsmod.item.tab.ModCreativeModeTabs;
+import com.michaelboss.coinsmod.registry.ModItems;
+import com.michaelboss.coinsmod.registry.ModMenus;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
 import org.slf4j.Logger;
 
@@ -45,6 +46,10 @@ public class CoinsMod {
         modEventBus.addListener(this::registerPackets);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static String getVersion() {

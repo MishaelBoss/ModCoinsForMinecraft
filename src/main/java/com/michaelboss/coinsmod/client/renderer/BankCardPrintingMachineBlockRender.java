@@ -1,6 +1,6 @@
 package com.michaelboss.coinsmod.client.renderer;
 
-import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
+import com.michaelboss.coinsmod.blockentity.BankCardPrintingMachineBlockEntity;
 import com.michaelboss.coinsmod.client.geckolib.BankCardPrintingMachineBlockGeoModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;

@@ -1,10 +1,9 @@
-package com.michaelboss.coinsmod.init;
+package com.michaelboss.coinsmod.registry;
 
 import com.michaelboss.coinsmod.CoinsMod;
-import com.michaelboss.coinsmod.block.ModBlocks;
-import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
-import com.michaelboss.coinsmod.block.entity.BankCardPrintingMachineBlockEntity;
-import com.michaelboss.coinsmod.block.entity.CoinageBlockEntity;
+import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
+import com.michaelboss.coinsmod.blockentity.BankCardPrintingMachineBlockEntity;
+import com.michaelboss.coinsmod.blockentity.CoinageBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;

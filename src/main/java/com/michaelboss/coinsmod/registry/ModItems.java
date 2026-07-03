@@ -1,7 +1,9 @@
-package com.michaelboss.coinsmod.item;
+package com.michaelboss.coinsmod.registry;
 
 import com.michaelboss.coinsmod.CoinsMod;
-import com.michaelboss.coinsmod.block.ModBlocks;
+import com.michaelboss.coinsmod.item.CardItem;
+import com.michaelboss.coinsmod.item.CoinItem;
+import com.michaelboss.coinsmod.item.WalletItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;

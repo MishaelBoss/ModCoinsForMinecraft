@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BankCardPrintingMachineScreen extends AbstractContainerScreen<BankCardPrintingMachineMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID, "textures/gui/bank_card_printing_machine.png");
+            (CoinsMod.id("textures/gui/bank_card_printing_machine.png"));
 
     public BankCardPrintingMachineScreen(BankCardPrintingMachineMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

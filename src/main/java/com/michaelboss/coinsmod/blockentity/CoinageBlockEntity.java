@@ -1,8 +1,8 @@
-package com.michaelboss.coinsmod.block.entity;
+package com.michaelboss.coinsmod.blockentity;
 
 import com.michaelboss.coinsmod.block.CoinageBlock;
-import com.michaelboss.coinsmod.init.ModBlockEntities;
-import com.michaelboss.coinsmod.item.ModItems;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
+import com.michaelboss.coinsmod.registry.ModItems;
 import com.michaelboss.coinsmod.menu.CoinageMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

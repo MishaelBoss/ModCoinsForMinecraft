@@ -1,6 +1,7 @@
 package com.michaelboss.coinsmod.menu;
 
-import com.michaelboss.coinsmod.block.entity.CoinageBlockEntity;
+import com.michaelboss.coinsmod.blockentity.CoinageBlockEntity;
+import com.michaelboss.coinsmod.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

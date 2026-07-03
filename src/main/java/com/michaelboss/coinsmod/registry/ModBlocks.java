@@ -1,6 +1,10 @@
-package com.michaelboss.coinsmod.block;
+package com.michaelboss.coinsmod.registry;
 
 import com.michaelboss.coinsmod.CoinsMod;
+import com.michaelboss.coinsmod.block.ATMBottomBlock;
+import com.michaelboss.coinsmod.block.ATMTopBlock;
+import com.michaelboss.coinsmod.block.BankCardPrintingMachineBlock;
+import com.michaelboss.coinsmod.block.CoinageBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;

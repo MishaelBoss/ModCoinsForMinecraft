@@ -1,7 +1,7 @@
 package com.michaelboss.coinsmod.block;
 
-import com.michaelboss.coinsmod.block.entity.CoinageBlockEntity;
-import com.michaelboss.coinsmod.init.ModBlockEntities;
+import com.michaelboss.coinsmod.blockentity.CoinageBlockEntity;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

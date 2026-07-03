@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CoinageScreen extends AbstractContainerScreen<CoinageMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(CoinsMod.MOD_ID, "textures/gui/coinage.png");
+            (CoinsMod.id("textures/gui/coinage.png"));
 
     public CoinageScreen(CoinageMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
