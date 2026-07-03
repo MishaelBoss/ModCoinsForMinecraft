@@ -16,6 +16,10 @@ public class CardItem extends Item {
         super(properties);
     }
 
+    public static CardItem create() {
+        return new CardItem(new Item.Properties().stacksTo(1));
+    }
+
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         String ownerName = stack.get(ModDataComponents.CARD_OWNER.get());

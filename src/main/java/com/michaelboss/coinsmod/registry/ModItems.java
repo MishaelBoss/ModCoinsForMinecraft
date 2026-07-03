@@ -33,10 +33,10 @@ public class ModItems {
 
     // Cards - Карты
     public static final DeferredItem<Item> CLASSIC_CARD = ITEMS.register("classic_card",
-            () -> new CardItem(new Item.Properties().stacksTo(1)));
+            CardItem::create);
 
     public static final DeferredItem<Item> GOLD_CARD = ITEMS.register("gold_card",
-            () -> new CardItem(new Item.Properties().stacksTo(1)));
+            CardItem::create);
 
     // Wallet - Кошелек
     public static final DeferredItem<Item> WALLET = ITEMS.register("wallet",

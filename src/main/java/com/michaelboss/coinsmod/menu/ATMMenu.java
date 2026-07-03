@@ -127,6 +127,29 @@ public class ATMMenu extends AbstractContainerMenu {
         return copy;
     }
 
+    @SuppressWarnings("resource")
+    @Override
+    public void removed(@NotNull Player player) {
+        super.removed(player);
+
+        Slot cardSlot = this.slots.get(6);
+        ItemStack cardStack = cardSlot.getItem();
+
+        if (!cardStack.isEmpty()) {
+            int playerInvStart = 7;
+            int playerInvEnd = this.slots.size();
+
+            if (this.moveItemStackTo(cardStack, playerInvStart, playerInvEnd, false)) {
+                cardSlot.set(ItemStack.EMPTY);
+            } else {
+                if (!player.level().isClientSide) {
+                    player.drop(cardStack, false);
+                    cardSlot.set(ItemStack.EMPTY);
+                }
+            }
+        }
+    }
+
     @Override
     public boolean stillValid(@NotNull Player player) {
         return stillValid(access, player, ModBlocks.ATM_BOTTOM_BLOCK.get());

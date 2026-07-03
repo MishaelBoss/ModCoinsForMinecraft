@@ -1,12 +1,8 @@
 package com.michaelboss.coinsmod;
 
-import com.michaelboss.coinsmod.registry.ModBlocks;
+import com.michaelboss.coinsmod.registry.*;
 import com.michaelboss.coinsmod.client.ClientModEvents;
-import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.michaelboss.coinsmod.item.tab.ModCreativeModeTabs;
-import com.michaelboss.coinsmod.registry.ModItems;
-import com.michaelboss.coinsmod.registry.ModMenus;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
 import org.slf4j.Logger;
