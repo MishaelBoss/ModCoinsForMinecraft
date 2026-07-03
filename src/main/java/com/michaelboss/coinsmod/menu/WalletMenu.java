@@ -3,6 +3,7 @@ package com.michaelboss.coinsmod.menu;
 import com.michaelboss.coinsmod.item.ModItems;
 import com.michaelboss.coinsmod.item.component.WalletContents;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
+import com.michaelboss.coinsmod.tags.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -21,11 +22,8 @@ public class WalletMenu extends AbstractContainerMenu {
     private final ItemStack walletStack;
 
     private boolean isAcceptedPayment(ItemStack stack) {
-        return stack.is(ModItems.COPPER_COIN.get())
-                || stack.is(ModItems.IRON_COIN.get())
-                || stack.is(ModItems.GOLD_COIN.get())
-                || stack.is(ModItems.CLASSIC_CARD.get())
-                || stack.is(ModItems.GOLD_CARD.get());
+        return stack.is(ModTags.Items.ATM_CARDS)
+                || stack.is(ModTags.Items.ATM_CURRENCY);
     }
 
     public WalletMenu(int id, Inventory playerInventory) {

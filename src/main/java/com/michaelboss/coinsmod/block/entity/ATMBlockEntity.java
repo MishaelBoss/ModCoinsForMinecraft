@@ -2,9 +2,9 @@ package com.michaelboss.coinsmod.block.entity;
 
 import com.michaelboss.coinsmod.block.ATMBottomBlock;
 import com.michaelboss.coinsmod.init.ModBlockEntities;
-import com.michaelboss.coinsmod.item.ModItems;
 import com.michaelboss.coinsmod.menu.ATMMenu;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
+import com.michaelboss.coinsmod.tags.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -71,7 +71,7 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
         if (level.isClientSide) return;
 
         ItemStack card = be.getItem(6);
-        boolean hasCard = card.is(ModItems.CLASSIC_CARD.get()) || card.is(ModItems.GOLD_CARD.get());
+        boolean hasCard = card.is(ModTags.Items.ATM_CARDS);
 
         boolean isCardValid = hasCard
                 && card.has(ModDataComponents.CARD_OWNER.get())

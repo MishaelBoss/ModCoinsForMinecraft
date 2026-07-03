@@ -2,7 +2,7 @@ package com.michaelboss.coinsmod.menu;
 
 import com.michaelboss.coinsmod.block.ModBlocks;
 import com.michaelboss.coinsmod.block.entity.ATMBlockEntity;
-import com.michaelboss.coinsmod.item.ModItems;
+import com.michaelboss.coinsmod.tags.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,14 +16,11 @@ public class ATMMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
 
     private boolean isAcceptedSlotInputCoin(ItemStack stack) {
-        return stack.is(ModItems.COPPER_COIN)
-                || stack.is(ModItems.IRON_COIN)
-                || stack.is(ModItems.GOLD_COIN);
+        return stack.is(ModTags.Items.ATM_CURRENCY);
     }
 
     private boolean isAcceptedSlotCard(ItemStack stack) {
-        return stack.is(ModItems.CLASSIC_CARD)
-                || stack.is(ModItems.GOLD_CARD);
+        return stack.is(ModTags.Items.ATM_CARDS);
     }
 
     @SuppressWarnings("resource")

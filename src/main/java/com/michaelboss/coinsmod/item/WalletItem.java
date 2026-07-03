@@ -3,6 +3,7 @@ package com.michaelboss.coinsmod.item;
 import com.michaelboss.coinsmod.item.component.WalletContents;
 import com.michaelboss.coinsmod.menu.WalletMenu;
 import com.michaelboss.coinsmod.registry.ModDataComponents;
+import com.michaelboss.coinsmod.tags.ModTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -47,9 +48,9 @@ public class WalletItem extends Item {
         if (contents != null) {
             for (ItemStack item : contents.getContent()) {
                 if (item.isEmpty()) continue;
-                if (item.is(ModItems.COPPER_COIN.get()) || item.is(ModItems.IRON_COIN.get()) || item.is(ModItems.GOLD_COIN.get())) {
+                if (item.is(ModTags.Items.ATM_CURRENCY)) {
                     coins += item.getCount();
-                } else if (item.is(ModItems.CLASSIC_CARD.get()) || item.is(ModItems.GOLD_CARD.get())) {
+                } else if (item.is(ModTags.Items.ATM_CARDS)) {
                     cards += item.getCount();
                 }
             }
