@@ -2,10 +2,12 @@
     "homepage": "https://github.com/MishaelBoss/ModCoinsForMinecraft/tree/NeoForge_1.21.1",
     "1.20.4": {
         "1.0.0": "Mod added",
-        "1.1.5": "Correcting the model"
+        "1.1.5": "Correcting the model",
+        "1.1.6": "It has been changed technically",
+        "1.1.7": "Integration with Jei"
     },
     "promos": {
-        "1.21.1-latest": "1.1.5",
+        "1.21.1-latest": "1.1.7",
         "1.21.1-recommended": "1.1.5"
     }
 }
