@@ -4,7 +4,6 @@ import com.michaelboss.coinsmod.item.WalletItem;
 import com.michaelboss.coinsmod.registry.ModItems;
 import com.michaelboss.coinsmod.registry.ModMenus;
 import com.michaelboss.coinsmod.item.component.WalletContents;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;

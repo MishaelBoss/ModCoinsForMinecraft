@@ -13,6 +13,11 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModBlocks {
+    private ModBlocks() {
+        /* This utility class should not be instantiated */
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CoinsMod.MOD_ID);
 
     public static final DeferredBlock<Block> ATM_TOP_BLOCK =

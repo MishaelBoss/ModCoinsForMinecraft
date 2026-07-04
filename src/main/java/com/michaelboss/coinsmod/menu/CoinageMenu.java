@@ -31,8 +31,12 @@ public class CoinageMenu extends AbstractContainerMenu {
         super(ModMenus.COINAGE_MENU.get(), id);
         this.blockEntity = blockEntity;
         this.data = data;
-        assert blockEntity.getLevel() != null;
-        this.access = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+
+        if(blockEntity.getLevel() != null) {
+            this.access = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+        } else {
+            this.access = ContainerLevelAccess.NULL;
+        }
 
         this.addDataSlots(data);
 

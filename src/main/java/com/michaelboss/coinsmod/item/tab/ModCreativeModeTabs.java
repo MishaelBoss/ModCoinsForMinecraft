@@ -11,16 +11,20 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModCreativeModeTabs {
+    private ModCreativeModeTabs() {
+        /* This utility class should not be instantiated */
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CoinsMod.MOD_ID);
 
-    // Регистрация предметов в TAb
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.examplemod"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> ModItems.COPPER_COIN.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                ModItems.ITEMS.getEntries().forEach(entry -> output.accept(entry.get()));
-            }).build());
+            .displayItems((parameters, output) ->
+                ModItems.ITEMS.getEntries().forEach(entry -> output.accept(entry.get()))
+            ).build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

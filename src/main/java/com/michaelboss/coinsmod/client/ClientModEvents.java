@@ -13,6 +13,10 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 public class ClientModEvents {
+    private ClientModEvents() {
+        throw new IllegalStateException("Utility class");
+    }
+
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.WALLET_MENU.get(), WalletScreen::new);
@@ -23,7 +27,7 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.COINAGE_BLOCK_ENTITY.get(), CoinageBlockRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY.get(), BankCardPrintingMachineBlockRender::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.COINAGE_BLOCK_ENTITY.get(), context -> new CoinageBlockRenderer());
+        event.registerBlockEntityRenderer(ModBlockEntities.BANK_CARD_PRINTING_MACHINE_BLOCK_ENTITY.get(), context -> new BankCardPrintingMachineBlockRender());
     }
 }

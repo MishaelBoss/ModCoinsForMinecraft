@@ -2,8 +2,8 @@ package com.michaelboss.coinsmod.client.gui;
 
 import com.michaelboss.coinsmod.CoinsMod;
 import com.michaelboss.coinsmod.item.CardItem;
+import com.michaelboss.coinsmod.item.CurrencyItem;
 import com.michaelboss.coinsmod.menu.ATMMenu;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -95,7 +95,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         this.amountInput.setMaxLength(5);
         this.amountInput.setTextColor(0xFF00F5D4);
         this.amountInput.setBordered(true);
-        this.amountInput.setFilter(text -> text.matches("^[0-9]*$"));
+        this.amountInput.setFilter(text -> text.matches("^\\d*$"));
 
         this.addRenderableWidget(this.depositBtn);
         this.addRenderableWidget(this.withdrawBtn);
@@ -176,7 +176,8 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         }
     }
 
-    private void renderStartScreen(GuiGraphics guiGraphics) {
+    @SuppressWarnings("java:S1186")
+    private void renderStartScreen() {
     }
 
     private void renderMainPage(GuiGraphics guiGraphics) {
@@ -184,7 +185,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
 
         if (this.isFullyBooted && cardStack.has(CardItem.getOwnerComponent())) {
             String ownerName = CardItem.getOwnerName(cardStack);
-            int deposit = CardItem.getDeposit(cardStack);
+            int deposit = Math.round(CardItem.getDeposit(cardStack) / 10.0F);
 
             Component welcomeText = Component.translatable("text.coinsmod.atm_screen.welcome_client", ownerName);
             guiGraphics.drawString(this.font, welcomeText, leftPos + 18, topPos + 25, 0xFFFFFFFF, false);
@@ -201,13 +202,15 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
             int rawPendingCoins = 0;
             for (int slotIdx = 0; slotIdx <= 5; slotIdx++) {
                 ItemStack slotStack = this.menu.getSlot(slotIdx).getItem();
-                if (!slotStack.isEmpty() && slotStack.getItem() instanceof com.michaelboss.coinsmod.item.CoinItem coinItem) {
-                    rawPendingCoins += (coinItem.getInternalValue() * slotStack.getCount());
+                if (!slotStack.isEmpty() && slotStack.getItem() instanceof CurrencyItem currencyItem) {
+                    rawPendingCoins += (currencyItem.getInternalValue() * slotStack.getCount());
                 }
             }
-            int pendingCoinsDisplay = rawPendingCoins;
+            int currentCardDepositRaw = CardItem.getDeposit(cardStack);
+            int totalCoinsRaw  = rawPendingCoins + currentCardDepositRaw;
 
-            int togetherCoinsDisplay = rawPendingCoins + CardItem.getDeposit(cardStack);
+            float pendingCoinsDisplay = rawPendingCoins / 10.0F;
+            float togetherCoinsDisplay = totalCoinsRaw / 10.0F;
 
             Component enrollmentText = Component.translatable("text.coinsmod.atm_screen.enrollment", pendingCoinsDisplay);
             guiGraphics.drawString(this.font, enrollmentText, leftPos + 18, topPos + 25, 0xFF00F5D4, false);
@@ -221,7 +224,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         ItemStack cardStack = this.menu.getSlot(6).getItem();
 
         if (this.isFullyBooted) {
-            int deposit = CardItem.getDeposit(cardStack);
+            int deposit = Math.round(CardItem.getDeposit(cardStack) / 10.0F);
 
             guiGraphics.pose().pushPose();
             guiGraphics.pose().scale(0.5F, 0.5F, 1.0F);
@@ -257,7 +260,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
 
         if (this.isFullyBooted) {
             switch (this.currentPage) {
-                case START_SCREEN -> renderStartScreen(guiGraphics);
+                case START_SCREEN -> renderStartScreen();
                 case MAIN -> renderMainPage(guiGraphics);
                 case DEPOSIT -> renderDepositPage(guiGraphics);
                 case WITHDRAW -> renderWithdrawPage(guiGraphics);
@@ -342,6 +345,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         guiGraphics.pose().popPose();
     }
 
+    @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0x00F5D4, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFAA00, false);

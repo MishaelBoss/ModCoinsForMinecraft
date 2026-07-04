@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -62,7 +63,7 @@ public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Con
             ItemStack output = be.getItem(1);
             boolean isProcessing = be.canProcess(input) && !input.isEmpty();
 
-            if (state.getValue(CoinageBlock.HAMMERING) != isProcessing) {
+            if (state.hasProperty(CoinageBlock.HAMMERING) && (state.getValue(CoinageBlock.HAMMERING) ^ isProcessing)) {
                 level.setBlock(pos, state.setValue(CoinageBlock.HAMMERING, isProcessing), 3);
                 be.setChanged();
             }
@@ -146,7 +147,7 @@ public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Con
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        ListTag itemsTag = tag.getList("Items", CompoundTag.TAG_COMPOUND);
+        ListTag itemsTag = tag.getList("Items", Tag.TAG_COMPOUND);
 
         for (int i = 0; i < itemsTag.size(); i++) {
             CompoundTag slotTag = itemsTag.getCompound(i);
@@ -222,7 +223,7 @@ public class CoinageBlockEntity extends BlockEntity implements MenuProvider, Con
             Level level = this.getLevel();
             if (level != null) {
                 BlockState blockState = level.getBlockState(this.getBlockPos());
-                if (blockState.hasProperty(CoinageBlock.HAMMERING) && blockState.getValue(CoinageBlock.HAMMERING)) {
+                if (blockState.getOptionalValue(CoinageBlock.HAMMERING).orElse(false)) {
                     return state.setAndContinue(HAMMER_ANIM);
                 }
             }

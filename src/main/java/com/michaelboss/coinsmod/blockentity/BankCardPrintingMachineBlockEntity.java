@@ -5,11 +5,11 @@ import com.michaelboss.coinsmod.item.CardItem;
 import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.michaelboss.coinsmod.registry.ModItems;
 import com.michaelboss.coinsmod.menu.BankCardPrintingMachineMenu;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
@@ -76,7 +76,7 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
 
             boolean isProcessing = be.canProcess(ingot, chip) && output.isEmpty();
 
-            if (state.getValue(BankCardPrintingMachineBlock.PRINTING) != isProcessing) {
+            if ((state.getValue(BankCardPrintingMachineBlock.PRINTING) ^ isProcessing)) {
                 level.setBlock(pos, state.setValue(BankCardPrintingMachineBlock.PRINTING, isProcessing), 3);
                 be.setChanged();
             }
@@ -139,7 +139,7 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
             Level lvl = this.getLevel();
             if (lvl != null) {
                 BlockState blockState = lvl.getBlockState(this.getBlockPos());
-                if (blockState.hasProperty(BankCardPrintingMachineBlock.PRINTING) && blockState.getValue(BankCardPrintingMachineBlock.PRINTING)) {
+                if (blockState.getOptionalValue(BankCardPrintingMachineBlock.PRINTING).orElse(false)) {
                     return state.setAndContinue(PRINT_ANIM);
                 }
             }
@@ -231,7 +231,7 @@ public class BankCardPrintingMachineBlockEntity extends BlockEntity implements M
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        ListTag itemsTag = tag.getList("Items", CompoundTag.TAG_COMPOUND);
+        ListTag itemsTag = tag.getList("Items", Tag.TAG_COMPOUND);
 
         for (int i = 0; i < itemsTag.size(); i++) {
             CompoundTag slotTag = itemsTag.getCompound(i);

@@ -2,13 +2,14 @@ package com.michaelboss.coinsmod.blockentity;
 
 import com.michaelboss.coinsmod.block.ATMBottomBlock;
 import com.michaelboss.coinsmod.item.CardItem;
-import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.michaelboss.coinsmod.menu.ATMMenu;
+import com.michaelboss.coinsmod.registry.ModBlockEntities;
 import com.michaelboss.coinsmod.tag.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
@@ -31,7 +32,7 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
         public int get(int index) {
             return switch (index) {
                 case 0 -> ATMBlockEntity.this.bootProgress;
-                case 1 -> ATMBlockEntity.this.maxBootTime;
+                case 1 -> ATMBlockEntity.MAX_BOOT_TIME;
                 case 2 -> ATMBlockEntity.this.cardStatus;
                 default -> 0;
             };
@@ -39,9 +40,10 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
 
         @Override
         public void set(int index, int value) {
-            switch (index) {
-                case 0 -> ATMBlockEntity.this.bootProgress = value;
-                case 2 -> ATMBlockEntity.this.cardStatus = value;
+            if(index == 0) {
+                ATMBlockEntity.this.bootProgress = value;
+            } else if (index == 2) {
+                ATMBlockEntity.this.cardStatus = value;
             }
         }
 
@@ -52,8 +54,11 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
     };
 
     private int bootProgress = 0;
-    private final int maxBootTime = 60;
+    private static final int MAX_BOOT_TIME = 60;
     private int cardStatus = 0;
+
+    private static final String NBT_BOOT_PROGRESS = "BootProgress";
+    private static final String NBT_CARD_STATUS = "CardStatus";
 
     public ATMBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.ATM_BLOCK_ENTITY.get(), pos, state);
@@ -77,7 +82,7 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
                 && card.has(CardItem.getOwnerComponent())
                 && card.has(CardItem.getUuidComponent());
 
-        if (state.hasProperty(ATMBottomBlock.HAS_CARD) && state.getValue(ATMBottomBlock.HAS_CARD) != hasCard) {
+        if (state.hasProperty(ATMBottomBlock.HAS_CARD) && (state.getValue(ATMBottomBlock.HAS_CARD) ^ hasCard)) {
             level.setBlock(pos, state.setValue(ATMBottomBlock.HAS_CARD, hasCard), 3);
             be.setChanged();
         }
@@ -92,7 +97,7 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
         }
 
         if (isCardValid) {
-            if (be.bootProgress < be.maxBootTime) {
+            if (be.bootProgress < MAX_BOOT_TIME) {
                 be.bootProgress++;
                 be.cardStatus = 1;
                 be.data.set(0, be.bootProgress);
@@ -126,14 +131,14 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
         }
 
         tag.put("Items", itemsTag);
-        tag.putInt("BootProgress", this.bootProgress);
-        tag.putInt("CardStatus", this.cardStatus);
+        tag.putInt(NBT_BOOT_PROGRESS, this.bootProgress);
+        tag.putInt(NBT_CARD_STATUS, this.cardStatus);
     }
 
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        ListTag itemsTag = tag.getList("Items", CompoundTag.TAG_COMPOUND);
+        ListTag itemsTag = tag.getList("Items", Tag.TAG_COMPOUND);
         this.items.clearContent();
 
         for (int i = 0; i < itemsTag.size(); i++) {
@@ -145,8 +150,8 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
             }
         }
 
-        this.bootProgress = tag.getInt("BootProgress");
-        this.cardStatus  = tag.getInt("CardStatus");
+        this.bootProgress = tag.getInt(NBT_BOOT_PROGRESS);
+        this.cardStatus  = tag.getInt(NBT_CARD_STATUS);
     }
 
     @Override
@@ -213,19 +218,17 @@ public class ATMBlockEntity extends BlockEntity implements MenuProvider, Contain
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         CompoundTag tag = super.getUpdateTag(registries);
-        tag.putInt("BootProgress", this.bootProgress);
-        tag.putInt("CardStatus", this.cardStatus);
+        tag.putInt(NBT_BOOT_PROGRESS, this.bootProgress);
+        tag.putInt(NBT_CARD_STATUS, this.cardStatus);
         return tag;
     }
 
     @Override
     public void onDataPacket(net.minecraft.network.@NotNull Connection net, net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket pkt, HolderLookup.@NotNull Provider registries) {
         CompoundTag tag = pkt.getTag();
-        if (tag != null) {
-            this.bootProgress = tag.getInt("BootProgress");
-            this.cardStatus  = tag.getInt("CardStatus");
-            this.data.set(0, this.bootProgress);
-            this.data.set(2, this.cardStatus);
-        }
+        this.bootProgress = tag.getInt(NBT_BOOT_PROGRESS);
+        this.cardStatus  = tag.getInt(NBT_CARD_STATUS);
+        this.data.set(0, this.bootProgress);
+        this.data.set(2, this.cardStatus);
     }
 }

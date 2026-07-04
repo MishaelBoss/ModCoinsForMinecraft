@@ -43,8 +43,7 @@ public class CardItem extends Item {
     }
 
     public static int getDeposit(ItemStack stack) {
-        int cardDeposit = stack.getOrDefault(ModDataComponents.CARD_DEPOSIT.get(), 0);
-        return Math.round(cardDeposit / 10.0F);
+        return stack.getOrDefault(ModDataComponents.CARD_DEPOSIT.get(), 0);
     }
 
     public static void setDeposit(ItemStack stack, int value) {
@@ -74,7 +73,9 @@ public class CardItem extends Item {
                         .append(": ")
                         .append(Component.literal(ownerUUID).withStyle(ChatFormatting.GRAY)));
 
-                tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.deposit", getDeposit(stack)));
+                int deposit = Math.round(getDeposit(stack) / 10.0F);
+
+                tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.deposit", deposit));
             } else {
                 tooltipComponents.add(Component.translatable("tooltip.coinsmod.card.no_biometrics").withStyle(ChatFormatting.RED));
             }

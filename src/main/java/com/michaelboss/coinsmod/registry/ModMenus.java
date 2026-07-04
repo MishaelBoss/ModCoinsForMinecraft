@@ -14,6 +14,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModMenus {
+    private ModMenus() {
+        /* This utility class should not be instantiated */
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, CoinsMod.MOD_ID);
 

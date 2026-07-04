@@ -4,7 +4,6 @@ import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
 import com.michaelboss.coinsmod.item.CardItem;
 import com.michaelboss.coinsmod.registry.ModItems;
 import com.michaelboss.coinsmod.menu.ATMMenu;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -29,77 +28,76 @@ public record WithdrawC2SPacket(int value) implements CustomPacketPayload {
 
     public static void handle(final WithdrawC2SPacket payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (context.player() instanceof ServerPlayer player) {
-                if (player.containerMenu instanceof ATMMenu atmMenu) {
-                    ATMBlockEntity be = atmMenu.getBlockEntity();
+            if (context.player() instanceof ServerPlayer player && player.containerMenu instanceof ATMMenu atmMenu) {
+                ATMBlockEntity be = atmMenu.getBlockEntity();
 
-                    ItemStack cardStack = be.getItem(6);
-                    if (cardStack.isEmpty()) return;
+                ItemStack cardStack = be.getItem(6);
+                if (cardStack.isEmpty()) return;
 
-                    int requestedAmount = payload.value() * 10;
-                    if (requestedAmount <= 0) return;
+                int requestedAmount = payload.value() * 10;
+                if (requestedAmount <= 0) return;
 
-                    if (CardItem.getDeposit(cardStack) < requestedAmount) {
-                        player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.insufficient_funds"));
-                        return;
-                    }
-
-                    int remainingToGive = requestedAmount;
-                    int goldCoinsToGive = 0;
-                    int ironCoinsToGive = 0;
-                    int copperCoinsToGive = 0;
-
-                    int maxGold = remainingToGive / 23;
-                    for (int g = maxGold; g >= 0; g--) {
-                        int tempRemaining = remainingToGive - (g * 23);
-
-                        int maxIron = tempRemaining / 15;
-                        for (int i = maxIron; i >= 0; i--) {
-                            int finalRemaining = tempRemaining - (i * 15);
-
-                            if (finalRemaining >= 0 && finalRemaining % 10 == 0) {
-                                goldCoinsToGive = g;
-                                ironCoinsToGive = i;
-                                copperCoinsToGive = finalRemaining / 10;
-                                remainingToGive = 0;
-                                break;
-                            }
-                        }
-                        if (remainingToGive == 0) break;
-                    }
-
-                    if (remainingToGive > 0) {
-                        copperCoinsToGive = requestedAmount / 10;
-                    }
-
-                    int requiredSlots = 0;
-                    if (goldCoinsToGive > 0) requiredSlots += (int) Math.ceil(goldCoinsToGive / 64.0);
-                    if (ironCoinsToGive > 0) requiredSlots += (int) Math.ceil(ironCoinsToGive / 64.0);
-                    if (copperCoinsToGive > 0) requiredSlots += (int) Math.ceil(copperCoinsToGive / 64.0);
-
-                    int emptySlotsCount = 0;
-                    for (int slot = 0; slot <= 5; slot++) {
-                        if (be.getItem(slot).isEmpty()) {
-                            emptySlotsCount++;
-                        }
-                    }
-
-                    if (emptySlotsCount < requiredSlots) {
-                        player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.not_enough_slots"));
-                        return;
-                    }
-
-                    splitAndPlaceInSlots(be, ModItems.GOLD_COIN.get(), goldCoinsToGive);
-                    splitAndPlaceInSlots(be, ModItems.IRON_COIN.get(), ironCoinsToGive);
-                    splitAndPlaceInSlots(be, ModItems.COPPER_COIN.get(), copperCoinsToGive);
-
-                    int newBalance = CardItem.getDeposit(cardStack) - requestedAmount;
-                    CardItem.setDeposit(cardStack, newBalance);
-
-                    be.setChanged();
-                    player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.successfully_removed", payload.value()));
+                if (CardItem.getDeposit(cardStack) < requestedAmount) {
+                    player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.insufficient_funds"));
+                    return;
                 }
+
+                int remainingToGive = requestedAmount;
+                int goldCoinsToGive = 0;
+                int ironCoinsToGive = 0;
+                int copperCoinsToGive = 0;
+
+                int maxGold = remainingToGive / 23;
+                for (int g = maxGold; g >= 0; g--) {
+                    int tempRemaining = remainingToGive - (g * 23);
+
+                    int maxIron = tempRemaining / 15;
+                    for (int i = maxIron; i >= 0; i--) {
+                        int finalRemaining = tempRemaining - (i * 15);
+
+                        if (finalRemaining >= 0 && finalRemaining % 10 == 0) {
+                            goldCoinsToGive = g;
+                            ironCoinsToGive = i;
+                            copperCoinsToGive = finalRemaining / 10;
+                            remainingToGive = 0;
+                            break;
+                        }
+                    }
+                    if (remainingToGive == 0) break;
+                }
+
+                if (remainingToGive > 0) {
+                    copperCoinsToGive = requestedAmount / 10;
+                }
+
+                int requiredSlots = 0;
+                if (goldCoinsToGive > 0) requiredSlots += (int) Math.ceil(goldCoinsToGive / 64.0);
+                if (ironCoinsToGive > 0) requiredSlots += (int) Math.ceil(ironCoinsToGive / 64.0);
+                if (copperCoinsToGive > 0) requiredSlots += (int) Math.ceil(copperCoinsToGive / 64.0);
+
+                int emptySlotsCount = 0;
+                for (int slot = 0; slot <= 5; slot++) {
+                    if (be.getItem(slot).isEmpty()) {
+                        emptySlotsCount++;
+                    }
+                }
+
+                if (emptySlotsCount < requiredSlots) {
+                    player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.not_enough_slots"));
+                    return;
+                }
+
+                splitAndPlaceInSlots(be, ModItems.GOLD_COIN.get(), goldCoinsToGive);
+                splitAndPlaceInSlots(be, ModItems.IRON_COIN.get(), ironCoinsToGive);
+                splitAndPlaceInSlots(be, ModItems.COPPER_COIN.get(), copperCoinsToGive);
+
+                int newBalance = CardItem.getDeposit(cardStack) - requestedAmount;
+                CardItem.setDeposit(cardStack, newBalance);
+
+                be.setChanged();
+                player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("text.coinsmod.withdraw_c2s.successfully_removed", payload.value()));
             }
+
         });
     }
 
@@ -128,7 +126,6 @@ public record WithdrawC2SPacket(int value) implements CustomPacketPayload {
                 for (int slot = 0; slot <= 5; slot++) {
                     if (be.getItem(slot).isEmpty()) {
                         be.setItem(slot, stackToInsert);
-                        placed = true;
                         break;
                     }
                 }

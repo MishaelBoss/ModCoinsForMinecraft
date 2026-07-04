@@ -35,7 +35,7 @@ public class ATMMenu extends AbstractContainerMenu {
 
         this.access = ContainerLevelAccess.NULL;
 
-        SetupMenu(inventory);
+        setupMenu(inventory);
     }
 
     public ATMMenu(int id, Inventory inventory, ATMBlockEntity blockEntity, ContainerData data, ContainerLevelAccess containerLevelAccess) {
@@ -45,10 +45,10 @@ public class ATMMenu extends AbstractContainerMenu {
         this.data = data;
         this.access = containerLevelAccess;
 
-        SetupMenu(inventory);
+        setupMenu(inventory);
     }
 
-    private void SetupMenu(Inventory inventory) {
+    private void setupMenu(Inventory inventory) {
         this.addSlot(new Slot(this.blockEntity, 0, 135, 19) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) { return isAcceptedSlotInputCoin(stack); }
         });

@@ -11,6 +11,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModDataComponents {
+    private ModDataComponents() {
+        /* This utility class should not be instantiated */
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final DeferredRegister.DataComponents REGISTRY =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, CoinsMod.MOD_ID);
 

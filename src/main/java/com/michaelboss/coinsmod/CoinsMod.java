@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -57,13 +55,9 @@ public class CoinsMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         LOGGER.info("HELLO FROM COMMON SETUP");
 
-        if (Config.LOG_DIRT_BLOCK.getAsBoolean()) {
-            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-        }
-
-        LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
-
-        Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
+        LOGGER.info("COPPER_COIN_INTERNAL_COIN_VALUE >> {}", Config.COPPER_COIN_INTERNAL_COIN_VALUE.get());
+        LOGGER.info("IRON_COIN_INTERNAL_COIN_VALUE >> {}", Config.IRON_COIN_INTERNAL_COIN_VALUE.get());
+        LOGGER.info("GOLD_COIN_INTERNAL_COIN_VALUE >> {}", Config.GOLD_COIN_INTERNAL_COIN_VALUE.get());
     }
 
     private void registerPackets(final net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent event) {
@@ -72,7 +66,7 @@ public class CoinsMod {
         registrar.playToServer(
                 com.michaelboss.coinsmod.network.DepositC2SPacket.TYPE,
                 com.michaelboss.coinsmod.network.DepositC2SPacket.STREAM_CODEC,
-                com.michaelboss.coinsmod.network.DepositC2SPacket::handle
+                (payload, context) -> com.michaelboss.coinsmod.network.DepositC2SPacket.handle(context)
         );
 
         registrar.playToServer(
