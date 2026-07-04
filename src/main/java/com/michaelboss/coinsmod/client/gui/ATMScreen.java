@@ -2,8 +2,8 @@ package com.michaelboss.coinsmod.client.gui;
 
 import com.michaelboss.coinsmod.CoinsMod;
 import com.michaelboss.coinsmod.item.CardItem;
+import com.michaelboss.coinsmod.item.CurrencyItem;
 import com.michaelboss.coinsmod.menu.ATMMenu;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -201,8 +201,8 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
             int rawPendingCoins = 0;
             for (int slotIdx = 0; slotIdx <= 5; slotIdx++) {
                 ItemStack slotStack = this.menu.getSlot(slotIdx).getItem();
-                if (!slotStack.isEmpty() && slotStack.getItem() instanceof com.michaelboss.coinsmod.item.CoinItem coinItem) {
-                    rawPendingCoins += (coinItem.getInternalValue() * slotStack.getCount());
+                if (!slotStack.isEmpty() && slotStack.getItem() instanceof CurrencyItem currencyItem) {
+                    rawPendingCoins += (currencyItem.getInternalValue() * slotStack.getCount());
                 }
             }
             int pendingCoinsDisplay = rawPendingCoins;

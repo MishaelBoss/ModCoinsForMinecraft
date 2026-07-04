@@ -2,9 +2,8 @@ package com.michaelboss.coinsmod.network;
 
 import com.michaelboss.coinsmod.blockentity.ATMBlockEntity;
 import com.michaelboss.coinsmod.item.CardItem;
-import com.michaelboss.coinsmod.item.CoinItem;
+import com.michaelboss.coinsmod.item.CurrencyItem;
 import com.michaelboss.coinsmod.menu.ATMMenu;
-import com.michaelboss.coinsmod.registry.ModDataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -38,8 +37,8 @@ public record DepositC2SPacket() implements CustomPacketPayload {
                     int totalCollected = 0;
                     for (int slot = 0; slot <= 5; slot++) {
                         ItemStack coinStack = be.getItem(slot);
-                        if (!coinStack.isEmpty() && coinStack.getItem() instanceof CoinItem coinItem) {
-                            totalCollected += (coinItem.getInternalValue() * coinStack.getCount());
+                        if (!coinStack.isEmpty() && coinStack.getItem() instanceof CurrencyItem currencyItem) {
+                            totalCollected += (currencyItem.getInternalValue() * coinStack.getCount());
                         }
                     }
 

@@ -8,28 +8,30 @@ import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-public class CoinItem extends Item {
-    private final int internalCoinValue;
+public class CurrencyItem extends Item {
+    private final Supplier<Integer> valueSupplier;
 
-    public CoinItem(Properties properties, float displayValue) {
+    public CurrencyItem(Properties properties, Supplier<Integer> valueSupplier) {
         super(properties);
-        this.internalCoinValue = Math.round(displayValue * 10);
+        this.valueSupplier = valueSupplier;
     }
 
     public int getInternalValue() {
-        return this.internalCoinValue;
+        return this.valueSupplier.get();
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-
         if (Screen.hasShiftDown()) {
-            float singleValue = this.internalCoinValue / 10.0F;
+            int internalCoinValue = getInternalValue();
+
+            float singleValue = internalCoinValue / 10.0F;
             tooltipComponents.add(Component.translatable("tooltip.coinsmod.coin.details", singleValue));
 
             if (stack.getCount() > 1) {
-                int totalInternalValue = this.internalCoinValue * stack.getCount();
+                int totalInternalValue = internalCoinValue * stack.getCount();
                 float totalValue = totalInternalValue / 10.0F;
 
                 tooltipComponents.add(Component.translatable("tooltip.coinsmod.coin.total_details", totalValue));
