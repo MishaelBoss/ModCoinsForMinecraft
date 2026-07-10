@@ -4,10 +4,11 @@
         "1.0.0": "Mod added",
         "1.1.5": "Correcting the model",
         "1.1.6": "It has been changed technically",
-        "1.1.7": "Integration with Jei"
+        "1.1.7": "Integration with Jei",
+        "1.2.0": "Mod rework"
     },
     "promos": {
-        "1.21.1-latest": "1.1.7",
-        "1.21.1-recommended": "1.1.5"
+        "1.21.1-latest": "1.2.0",
+        "1.21.1-recommended": "1.2.0"
     }
 }
