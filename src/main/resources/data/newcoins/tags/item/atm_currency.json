@@ -3,6 +3,7 @@
   "values": [
     "newcoins:copper_coin",
     "newcoins:gold_coin",
-    "newcoins:iron_coin"
+    "newcoins:iron_coin",
+    "newcoins:dollar_bill"
   ]
 }

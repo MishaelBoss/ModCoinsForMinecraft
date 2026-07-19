@@ -1,10 +1,7 @@
 package com.michaelboss.newcoins.registry;
 
 import com.michaelboss.newcoins.NewCoins;
-import com.michaelboss.newcoins.block.ATMBottomBlock;
-import com.michaelboss.newcoins.block.ATMTopBlock;
-import com.michaelboss.newcoins.block.BankCardPrintingMachineBlock;
-import com.michaelboss.newcoins.block.CoinageBlock;
+import com.michaelboss.newcoins.block.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -34,7 +31,11 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> BANK_CARD_PRINTING_MACHINE_BLOCK =
             BLOCKS.register("bank_card_printing_machine_block",
-                    () -> new BankCardPrintingMachineBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).forceSolidOn().noOcclusion().requiresCorrectToolForDrops()));
+                    () -> new BankCardPrintingMachineBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).forceSolidOn().requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<Block> PRINTER_PAPER_MONEY_BLOCK =
+            BLOCKS.register("printer_paper_money_block",
+                    ()-> new PrinterPaperMoneyBlock(BlockBehaviour.Properties.of().strength(4.0F, 5.0F).forceSolidOn().noCollission().requiresCorrectToolForDrops()));
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

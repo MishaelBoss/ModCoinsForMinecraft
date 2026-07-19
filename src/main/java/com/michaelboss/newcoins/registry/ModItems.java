@@ -33,6 +33,10 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_COIN = ITEMS.register("iron_coin",
             () -> new CurrencyItem(new Item.Properties(), Config.IRON_COIN_INTERNAL_COIN_VALUE));
 
+    // Paper money - бумажные деньги
+    public static final DeferredItem<Item> PAPER_MONEY = ITEMS.register("dollar_bill",
+            () -> new CurrencyItem(new Item.Properties(), Config.PAPER_MONEY_INTERNAL_MONEY_VALUE));
+
     // Chip - чип
     public static final DeferredItem<Item> CHIP = ITEMS.register("chip",
             () -> new Item(new Item.Properties()));
@@ -55,6 +59,9 @@ public class ModItems {
     // Bank card printing machine - станок для создания банковских карт
     public static final DeferredItem<BlockItem> BANK_CARD_PRINTING_MACHINE_BLOCK_ITEM =
             ITEMS.registerSimpleBlockItem("bank_card_printing_machine_block", ModBlocks.BANK_CARD_PRINTING_MACHINE_BLOCK, new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<BlockItem> PRINTED_PAPER_MONEY_BLOCK_ITEM =
+            ITEMS.registerSimpleBlockItem("printer_paper_money_block", ModBlocks.PRINTER_PAPER_MONEY_BLOCK, new Item.Properties().stacksTo(1));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
